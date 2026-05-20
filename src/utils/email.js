@@ -8,12 +8,15 @@ async function getTransporter() {
 
     // Use real SMTP if configured (e.g. Gmail, Mailgun, SendGrid)
     if (process.env.SMTP_HOST && process.env.SMTP_USER) {
+        const port = parseInt(process.env.SMTP_PORT || '587');
+        const secure = port === 465 || process.env.SMTP_SECURE === 'true';
         transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
-            port: parseInt(process.env.SMTP_PORT || '587'),
+            port: port,
+            secure: secure,
             auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
         });
-        console.log(`📧 Using SMTP: ${process.env.SMTP_HOST}`);
+        console.log(`📧 Using SMTP: ${process.env.SMTP_HOST} (port: ${port}, secure: ${secure})`);
         return transporter;
     }
 
