@@ -44,8 +44,8 @@ async function initMysqlDb() {
             resetToken VARCHAR(255),
             resetTokenExpires DATETIME,
             passwordReset DATETIME,
-            created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated DATETIME ON UPDATE CURRENT_TIMESTAMP
+            created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated DATETIME
         )
     `);
     await mysqlPool.query(`
@@ -54,7 +54,7 @@ async function initMysqlDb() {
             accountId INT NOT NULL,
             token VARCHAR(255) NOT NULL UNIQUE,
             expires DATETIME NOT NULL,
-            created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             createdByIp VARCHAR(45),
             revoked DATETIME,
             revokedByIp VARCHAR(45),
