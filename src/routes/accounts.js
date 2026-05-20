@@ -31,22 +31,6 @@ const ctrl = require('../controllers/accounts.controller');
  *       400:
  *         description: Invalid credentials
  */
-router.get('/debug-list', async (req, res) => {
-    try {
-        const { getDb, USE_MYSQL } = require('../db');
-        if (USE_MYSQL) {
-            const { pool } = getDb();
-            const [r] = await pool.query('SELECT id, email, role FROM accounts');
-            res.json({ useMysql: true, accounts: r });
-        } else {
-            const db = getDb();
-            res.json({ useMysql: false, accounts: db.accounts });
-        }
-    } catch (err) {
-        res.status(500).json({ error: err.message, stack: err.stack });
-    }
-});
-
 router.post('/authenticate', ctrl.authenticate);
 
 /**
